@@ -7,8 +7,8 @@ public class Tondeuse {
     private int x;
     private int y;
     private char orientation;
-    public static int xMAX;
-    public static int yMAX;
+    public int xMAX;
+    public int yMAX;
     public static final int X_MIN = 0;
     public static final int Y_MIN = 0;
     public static final char DROITE = 'D';
@@ -19,13 +19,9 @@ public class Tondeuse {
     public static final char EAST = 'E';
     public static final char WEST = 'W';
 
-    public Tondeuse() {
-    }
-
-    public Tondeuse(int x, int y, char orientation) {
-        this.x = x;
-        this.y = y;
-        this.orientation = orientation;
+    public Tondeuse(int xMAX, int yMAX) {
+        this.xMAX = xMAX;
+        this.yMAX = yMAX;
     }
 
     public int getX() {
