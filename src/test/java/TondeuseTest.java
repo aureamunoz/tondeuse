@@ -1,7 +1,8 @@
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class TondeuseTest {
 
@@ -38,7 +39,6 @@ results
         tondeuse1.setX(1);
         tondeuse1.setY(2);
         tondeuse1.setOrientation('N');
-
 
         for (int i = 0; i < moves1.length; i++) {
             tondeuse1.move(moves1[i]);
