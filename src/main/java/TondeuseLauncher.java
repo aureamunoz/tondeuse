@@ -38,10 +38,9 @@ public class TondeuseLauncher {
                 tondeuse.setOrientation(line.charAt(2));
                 String moves = br.readLine();
 
-                for (int i = 0; i < moves.length(); i++) {
-                    tondeuse.move(moves.charAt(i));
-                }
-                System.out.println(" Arrivée: " + tondeuse.getX() + tondeuse.getY() + tondeuse.getOrientation());
+                tondeuse.move(moves);
+
+                System.out.println(" Arrivée:  actual [" + tondeuse.getX() + tondeuse.getY() + tondeuse.getOrientation()+"]");
                 line = br.readLine();
             }
         } catch (IOException e) {

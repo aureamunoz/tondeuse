@@ -6,6 +6,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class TondeuseTest {
 
+    private Tondeuse tondeuse ;
+
 
     /*instrucciones
     5 5
@@ -27,26 +29,23 @@ results
 
     @Before
     public void setUp() {
+        tondeuse = new Tondeuse(5,5);
 
 
     }
 
     @Test
     public void testTondeuse1() {
-        Tondeuse tondeuse1 = new Tondeuse(5, 5);
         String instructions1 = "GAGAGAGAA";
-        char[] moves1 = instructions1.toCharArray();
-        tondeuse1.setX(1);
-        tondeuse1.setY(2);
-        tondeuse1.setOrientation('N');
+        tondeuse.setX(1);
+        tondeuse.setY(2);
+        tondeuse.setOrientation('N');
 
-        for (int i = 0; i < moves1.length; i++) {
-            tondeuse1.move(moves1[i]);
-        }
+        tondeuse.move(instructions1);
 
-        assertThat(tondeuse1.getX()).isEqualTo(1);
-        assertThat(tondeuse1.getY()).isEqualTo(3);
-        assertThat(tondeuse1.getOrientation()).isEqualTo('N');
+        assertThat(tondeuse.getX()).isEqualTo(1);
+        assertThat(tondeuse.getY()).isEqualTo(3);
+        assertThat(tondeuse.getOrientation()).isEqualTo('N');
 
 
     }
@@ -54,21 +53,16 @@ results
     @Test
     public void testTondeuse2() {
 
-        Tondeuse tondeuse2 = new Tondeuse(5, 5);
         String instructions2 = "AADAADADDA";
-        char[] moves2 = instructions2.toCharArray();
-        tondeuse2.setX(3);
-        tondeuse2.setY(3);
-        tondeuse2.setOrientation('E');
+        tondeuse.setX(3);
+        tondeuse.setY(3);
+        tondeuse.setOrientation('E');
 
+        tondeuse.move(instructions2);
 
-        for (int i = 0; i < moves2.length; i++) {
-            tondeuse2.move(moves2[i]);
-        }
-
-        assertThat(tondeuse2.getX()).isEqualTo(5);
-        assertThat(tondeuse2.getY()).isEqualTo(1);
-        assertThat(tondeuse2.getOrientation()).isEqualTo('E');
+        assertThat(tondeuse.getX()).isEqualTo(5);
+        assertThat(tondeuse.getY()).isEqualTo(1);
+        assertThat(tondeuse.getOrientation()).isEqualTo('E');
 
     }
 }

@@ -1,6 +1,7 @@
 
 
 import com.google.common.base.Objects;
+import org.apache.commons.lang3.StringUtils;
 
 public class Tondeuse {
 
@@ -64,6 +65,14 @@ public class Tondeuse {
     @Override
     public int hashCode() {
         return Objects.hashCode(x, y, orientation);
+    }
+
+    public void move (String instructions){
+       if(StringUtils.isNotEmpty(instructions)){
+           for(char mv: instructions.toCharArray()){
+               move(mv);
+           }
+       }
     }
 
     public void move(char instruction) {
