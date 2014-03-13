@@ -1,11 +1,14 @@
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.verify;
 
 
 public class TondeuseTest {
 
-    private Tondeuse tondeuse ;
+    private Tondeuse tondeuse;
 
 
     /*instrucciones
@@ -36,7 +39,7 @@ results
     @Test
     public void testTondeuse1() {
         String instructions1 = "GAGAGAGAA";
-        tondeuse = new Tondeuse(1,2,"NORTH");
+        tondeuse = new Tondeuse(1, 2, "NORTH");
         tondeuse.getPosition().setxMAX(5);
         tondeuse.getPosition().setyMAX(5);
 
@@ -49,19 +52,27 @@ results
 
     }
 
-//    @Test
-//    public void testTondeuse2() {
-//
-//        String instructions2 = "AADAADADDA";
-//        tondeuse.setX(3);
-//        tondeuse.setY(3);
-//        tondeuse.setDirection('E');
-//
-//        tondeuse.move(instructions2);
-//
-//        assertThat(tondeuse.getX()).isEqualTo(5);
-//        assertThat(tondeuse.getY()).isEqualTo(1);
-//        assertThat(tondeuse.getDirection()).isEqualTo('E');
-//
-//    }
+    @Test
+    public void testMove() {
+        tondeuse = Mockito.spy(new Tondeuse(1, 2, "NORTH"));
+        for(Action action: Action.values()){
+            tondeuse.move(action);
+        }
+        verify(tondeuse, atLeastOnce()).turnRight();
+        verify(tondeuse, atLeastOnce()).turnLeft();
+        verify(tondeuse, atLeastOnce()).goAheadIfPossible();
+
+    }
+
+
+
+
+
+    @Test
+    public void testGoAhead() {
+
+
+    }
+
+
 }

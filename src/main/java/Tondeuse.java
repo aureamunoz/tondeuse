@@ -49,41 +49,40 @@ public class Tondeuse {
 
     public void move(String instructions) {
         if (StringUtils.isNotEmpty(instructions)) {
-            for (String mv : toStringArray(instructions)) {
-                move(Action.valueOf(mv));
+            for (char mv : instructions.toCharArray()) {
+                move(Action.getActionfromName(mv));
             }
         }
     }
 
-    //TODO probar con Optional
 
-    private String[] toStringArray(String word) {
-        if (StringUtils.isNotEmpty(word)) {
-            String[] strArray = word.split("");
-//            String[] strArray = new String[]{word};
-            return strArray;
-        }
-        return null;
-
-    }
 
     public void move(Action instruction) {
         switch (instruction) {
             case DROITE:
-                this.direction.turnRight();
+                turnRight();
                 break;
             case GAUCHE:
-                this.direction.turnLeft();
+                turnLeft();
                 break;
             case AVANCE:
                 goAheadIfPossible();
                 break;
+
         }
 
     }
 
+    public void turnRight(){
+        this.direction = this.direction.turnRight();
+    }
 
-    private void goAheadIfPossible() {
+    public void turnLeft(){
+        this.direction = this.direction.turnLeft();
+    }
+
+
+    public void goAheadIfPossible() {
         //TODO Optional<position>
         Position newPosition = null;
         switch (this.direction) {
@@ -107,8 +106,8 @@ public class Tondeuse {
 
     }
 
-    public Position getNewPosition(Position position, int nbX, int nbY) {
-        Position newPosition = new Position(this.getPosition().getX() + nbX, this.position.getY() + nbY);
+    public Position getNewPosition(Position position, int incX, int incY) {
+        Position newPosition = new Position(this.getPosition().getX() + incX, this.position.getY() + incY);
         return newPosition;
     }
 

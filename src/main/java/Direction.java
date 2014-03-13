@@ -1,7 +1,7 @@
 public enum Direction {
     NORTH {
         Direction turnLeft(){ return WEST;}
-        Direction turnRight(){ return NORTH;}
+        Direction turnRight(){ return EAST;}
     },
     SOUTH {
         Direction turnLeft(){ return EAST;}

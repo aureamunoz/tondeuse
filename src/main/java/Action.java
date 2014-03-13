@@ -1,10 +1,20 @@
 public enum Action {
 
-    DROITE ("D"), GAUCHE ("G"), AVANCE ("A");
+    DROITE ('D'), GAUCHE ('G'), AVANCE ('A');
 
-    private String action;
+    private char name;
 
-    Action(String action) {
-        this.action = action;
+    private Action(char name) {
+        this.name = name;
     }
+
+    public static Action getActionfromName(final char name)
+    {
+        for (Action action : Action.values())
+            if (action.name == name)
+                return action;
+
+        return null;
+    }
+
 }
