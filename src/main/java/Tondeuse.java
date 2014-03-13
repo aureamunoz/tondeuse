@@ -5,48 +5,29 @@ import org.apache.commons.lang3.StringUtils;
 
 public class Tondeuse {
 
-    private int x;
-    private int y;
-    private char orientation;
-    public int xMAX;
-    public int yMAX;
-    public static final int X_MIN = 0;
-    public static final int Y_MIN = 0;
-    public static final char DROITE = 'D';
-    public static final char GAUCHE = 'G';
-    public static final char AVANCE = 'A';
-    public static final char NORTH = 'N';
-    public static final char SOUTH = 'S';
-    public static final char EAST = 'E';
-    public static final char WEST = 'W';
+    private Position position;
+    private Direction direction;
 
-    public Tondeuse(int xMAX, int yMAX) {
-        this.xMAX = xMAX;
-        this.yMAX = yMAX;
+
+    public Tondeuse(int x, int y, String direction) {
+        this.position = new Position(x,y);
+        this.direction = Direction.valueOf(direction);
     }
 
-    public int getX() {
-        return x;
+    public Direction getDirection() {
+        return direction;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 
-    public int getY() {
-        return y;
+    public Position getPosition() {
+        return position;
     }
 
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public char getOrientation() {
-        return orientation;
-    }
-
-    public void setOrientation(char orientation) {
-        this.orientation = orientation;
+    public void setPosition(Position position) {
+        this.position = position;
     }
 
     @Override
@@ -57,96 +38,78 @@ public class Tondeuse {
             return false;
         Tondeuse tondeuse = (Tondeuse) obj;
 
-        return Objects.equal(this.x, tondeuse.x) && Objects.equal(this.y, tondeuse.y)
-                && Objects.equal(this.orientation, tondeuse.orientation);
+        return Objects.equal(this.position, tondeuse.position) && Objects.equal(this.direction, tondeuse.direction);
 
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(x, y, orientation);
+        return Objects.hashCode(position, direction);
     }
 
-    public void move (String instructions){
-       if(StringUtils.isNotEmpty(instructions)){
-           for(char mv: instructions.toCharArray()){
-               move(mv);
-           }
-       }
+    public void move(String instructions) {
+        if (StringUtils.isNotEmpty(instructions)) {
+            for (String mv : toStringArray(instructions)) {
+                move(Action.valueOf(mv));
+            }
+        }
     }
 
-    public void move(char instruction) {
+    //TODO probar con Optional
+
+    private String[] toStringArray(String word) {
+        if (StringUtils.isNotEmpty(word)) {
+            String[] strArray = word.split("");
+//            String[] strArray = new String[]{word};
+            return strArray;
+        }
+        return null;
+
+    }
+
+    public void move(Action instruction) {
         switch (instruction) {
             case DROITE:
-                turnRight();
+                this.direction.turnRight();
                 break;
             case GAUCHE:
-                turnLeft();
+                this.direction.turnLeft();
                 break;
             case AVANCE:
-                goAhead();
+                goAheadIfPossible();
                 break;
         }
 
     }
 
-    private void goAhead() {
-        switch (orientation) {
+
+    private void goAheadIfPossible() {
+        //TODO Optional<position>
+        Position newPosition = null;
+        switch (this.direction) {
             case NORTH:
-                if (y + 1 <= yMAX)
-                    y = y + 1;
+                newPosition = getNewPosition(this.position, 0, 1);
                 break;
             case EAST:
-                if (x + 1 <= xMAX)
-                    x = x + 1;
+                newPosition = getNewPosition(this.position, 1, 0);
                 break;
             case SOUTH:
-                if (y - 1 >= Y_MIN)
-                    y = y - 1;
+                newPosition = getNewPosition(this.position, 0, -1);
                 break;
             case WEST:
-                if (x - 1 >= X_MIN)
-                    x = x - 1;
+                newPosition = getNewPosition(this.position, -1, 0);
                 break;
         }
+        if (newPosition.isValid()) {
+            this.position = newPosition;
+        }
+
+
     }
 
-    private void turnLeft() {
-        if (orientation == NORTH){
-            orientation = WEST;
-            return;
-        }
-        if (orientation == WEST){
-            orientation = SOUTH;
-            return;
-        }
-        if (orientation == SOUTH){
-            orientation = EAST;
-            return;
-        }
-        if (orientation == EAST){
-            orientation = NORTH;
-            return;
-        }
-    }
-
-    private void turnRight() {
-        if (orientation == NORTH){
-            orientation = EAST;
-            return;
-        }
-        if (orientation == EAST){
-            orientation = SOUTH;
-            return;
-        }
-        if (orientation == SOUTH){
-            orientation = WEST;
-            return;
-        }
-        if (orientation == WEST){
-            orientation = NORTH;
-            return;
-        }
+    public Position getNewPosition(Position position, int nbX, int nbY) {
+        Position newPosition = new Position(this.getPosition().getX() + nbX, this.position.getY() + nbY);
+        return newPosition;
     }
 
 }
