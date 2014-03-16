@@ -1,10 +1,14 @@
+package org.aureamunoz.model;
+
+import com.google.common.base.Objects;
+
 public class Position {
 
     private int x;
     private int y;
 
-    public int xMAX;
-    public int yMAX;
+    public static int xMAX;
+    public static int yMAX;
 
     public static final int X_MIN = 0;
     public static final int Y_MIN = 0;
@@ -43,9 +47,31 @@ public class Position {
 
 
 
+    public Position(int x, int y, int xMAX, int yMAX) {
+        this.x = x;
+        this.y = y;
+        this.xMAX = xMAX;
+        this.yMAX = yMAX;
+    }
+
     public Position(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if(this == o)
+            return true;
+        if(o == null || getClass()!= o.getClass() )
+            return false;
+        Position p = (Position) o;
+        return Objects.equal(this.x, p.x)&& Objects.equal(this.y,p.y);
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hashCode(this.x,this.y);
     }
 
 

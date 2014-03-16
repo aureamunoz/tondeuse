@@ -1,3 +1,5 @@
+package org.aureamunoz.model;
+
 public enum Action {
 
     DROITE ('D'), GAUCHE ('G'), AVANCE ('A');
@@ -14,7 +16,7 @@ public enum Action {
             if (action.name == name)
                 return action;
 
-        return null;
+        throw new AssertionError("Unknown action: " + name);
     }
 
 }

@@ -1,4 +1,4 @@
-
+package org.aureamunoz.model;
 
 import com.google.common.base.Objects;
 import org.apache.commons.lang3.StringUtils;
@@ -9,9 +9,9 @@ public class Tondeuse {
     private Direction direction;
 
 
-    public Tondeuse(int x, int y, String direction) {
-        this.position = new Position(x,y);
-        this.direction = Direction.valueOf(direction);
+    public Tondeuse(int x, int y, Direction orientation) {
+        this.position = new Position(x, y);
+        this.direction = orientation;
     }
 
     public Direction getDirection() {
@@ -49,12 +49,23 @@ public class Tondeuse {
 
     public void move(String instructions) {
         if (StringUtils.isNotEmpty(instructions)) {
+            instructions = format(instructions);
             for (char mv : instructions.toCharArray()) {
                 move(Action.getActionfromName(mv));
             }
         }
     }
 
+    public String getPositionForPrint() {
+        String position = new StringBuilder().append("(").append(String.valueOf(this.getPosition().getX())).append(",").append(String.valueOf(this.getPosition().getY())).append(")").toString();
+        return position;
+    }
+
+    public static String format(String stringToFormat) {
+        stringToFormat = StringUtils.deleteWhitespace(stringToFormat);
+        stringToFormat = stringToFormat.toUpperCase();
+        return stringToFormat;
+    }
 
 
     public void move(Action instruction) {
@@ -73,11 +84,11 @@ public class Tondeuse {
 
     }
 
-    public void turnRight(){
+    public void turnRight() {
         this.direction = this.direction.turnRight();
     }
 
-    public void turnLeft(){
+    public void turnLeft() {
         this.direction = this.direction.turnLeft();
     }
 
@@ -87,16 +98,16 @@ public class Tondeuse {
         Position newPosition = null;
         switch (this.direction) {
             case NORTH:
-                newPosition = getNewPosition(this.position, 0, 1);
+                newPosition = getNewPosition(0, 1);
                 break;
             case EAST:
-                newPosition = getNewPosition(this.position, 1, 0);
+                newPosition = getNewPosition(1, 0);
                 break;
             case SOUTH:
-                newPosition = getNewPosition(this.position, 0, -1);
+                newPosition = getNewPosition(0, -1);
                 break;
             case WEST:
-                newPosition = getNewPosition(this.position, -1, 0);
+                newPosition = getNewPosition(-1, 0);
                 break;
         }
         if (newPosition.isValid()) {
@@ -106,7 +117,7 @@ public class Tondeuse {
 
     }
 
-    public Position getNewPosition(Position position, int incX, int incY) {
+    public Position getNewPosition(int incX, int incY) {
         Position newPosition = new Position(this.getPosition().getX() + incX, this.position.getY() + incY);
         return newPosition;
     }
