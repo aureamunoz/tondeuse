@@ -144,6 +144,34 @@ results
 
     }
 
+    @Test
+    public void testIntegration1(){
+        tondeuse = new Tondeuse(1, 2, Direction.NORTH);
+        String instrucitons = "GAGAGAGAA";
+        tondeuse.move(instrucitons);
+
+        assertThat(tondeuse.getPosition().isValid()).isTrue();
+        assertThat(tondeuse.getPosition().getX()).isEqualTo(1);
+        assertThat(tondeuse.getPosition().getY()).isEqualTo(3);
+        assertThat(tondeuse.getDirection()).isEqualTo(Direction.NORTH);
+
+    }
+
+    @Test
+    public void testIntegration2(){
+        tondeuse = new Tondeuse(3, 3, Direction.EAST);
+        String instrucitons = "AADAADADDA";
+        tondeuse.move(instrucitons);
+
+        assertThat(tondeuse.getPosition().isValid()).isTrue();
+        assertThat(tondeuse.getPosition().getX()).isEqualTo(5);
+        assertThat(tondeuse.getPosition().getY()).isEqualTo(1);
+        assertThat(tondeuse.getDirection()).isEqualTo(Direction.EAST);
+
+    }
+
+
+
 
 }
 
